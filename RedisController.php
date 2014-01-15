@@ -1,5 +1,7 @@
 <?php
 
+namespace vendors\courtoisconsulting\phpRedisController;
+
 class RedisController {
 
     private  $objServer = null;
@@ -16,10 +18,18 @@ class RedisController {
 
         $strMsg = sprintf("LRANGE %s %d %d", $strKey, ($numLimit) ? $numLimit * -1 : -10000, ($numLimit) ? $numLimit : 10000);
         $strResponse = $this->sendFormattedCommand($strMsg);
-        $numResult = intval(preg_replace("/^\*([0-9]*)/", "$1", $strResponse));
-        for ($i=1; $i<$numResult; $i++) {
+        $numResult = intval(str_replace("*", "", $strResponse));
+        for ($i=0; $i<$numResult; $i++) {
+            // Geting the length of result from response
             $strResponse = fgets($objServer);
-            $strResponse = fgets($objServer);
+            $numLength = intval(str_replace("$", "", $strResponse));
+            // Getting the actual value
+            $strResponse = fread($objServer, $numLength);
+            // Remove enclosing quotes from value
+            $strResponse = substr($strResponse, 1, -1);
+            // Getting the carriage return and disregard it
+            $strAbfall = fgets($objServer);
+            // Adding the value to the array
             $arrReturn[] = $strResponse;
         }
         return $arrReturn;
