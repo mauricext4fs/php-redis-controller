@@ -26,7 +26,7 @@ class RedisController {
             // Getting the actual value
             $strResponse = fread($objServer, $numLength);
             // Remove enclosing quotes from value
-            $strResponse = substr($strResponse, 1, -1);
+            //$strResponse = substr($strResponse, 1, -1);
             // Getting the carriage return and disregard it
             $strAbfall = fgets($objServer);
             // Adding the value to the array
@@ -39,7 +39,7 @@ class RedisController {
     {
         $objServer = $this->getInstance();
         
-        $strMsg = sprintf("RPUSH %s \"%s\"", $strKey, $strValue);
+        $strMsg = sprintf("RPUSH %s %s", $strKey, $strValue);
         $this->sendFormattedCommand($strMsg);
         
         return;
