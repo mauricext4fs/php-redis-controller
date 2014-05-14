@@ -61,6 +61,9 @@ class RedisController {
     {
         if(empty($this->objServer)) {
             // Connecting
+            if (!file_exists("/tmp/redis.sock")) {
+                throw new \Exception("/tmp/redis.sock not existing");
+            }
             $this->objServer = stream_socket_client("unix:///tmp/redis.sock", $errno, $errstr, 30);
             // Test connection
             $this->sendFormattedCommand("ping");
