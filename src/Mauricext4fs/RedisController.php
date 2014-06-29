@@ -1,6 +1,8 @@
 <?php
-
-namespace vendors\courtoisconsulting\phpRedisController;
+/**
+ * See licensing info in ../../LICENSE
+ */
+namespace Mauricext4fs\Redis;
 
 class RedisController {
 
